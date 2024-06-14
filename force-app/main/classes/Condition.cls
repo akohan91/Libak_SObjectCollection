@@ -4,21 +4,17 @@ public class Condition {
 		'!=' => NotEqual.class
 	};
 	private String fieldName;
-	private String operator;
 	private Object value;
+	private IComparable matcher;
 
 	public Condition(String fieldName, String operator, Object value) {
 		this.fieldName = fieldName;
-		this.operator = operator;
 		this.value = value;
+		this.matcher = (IComparable)this.operatorToMatcher.get(operator).newInstance();
 	}
 
 	public Boolean match(SObject record) {
-		return (
-			(IComparable)this.operatorToMatcher
-			.get(this.operator)
-			.newInstance()
-		).compare(this.fieldName, this.value, record);
+		return this.matcher.compare(this.fieldName, this.value, record);
 	}
 
 	public interface IComparable {

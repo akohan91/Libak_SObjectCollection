@@ -3,13 +3,12 @@ public with sharing class ConditionBlock {
 		'&&' => AndImpl.class,
 		'||' => OrImpl.class
 	};
-	private String operator;
 	private List<Condition> conditions = new List<Condition>();
 	private List<ConditionBlock> blocks = new List<ConditionBlock>();
-
+	private IComparable matcher;
 
 	public ConditionBlock(String operator) {
-		this.operator = operator;
+		this.matcher = (IComparable)this.operatorToMatcher.get(operator).newInstance();
 	}
 
 	public ConditionBlock add(ConditionBlock block) {
@@ -23,8 +22,7 @@ public with sharing class ConditionBlock {
 	}
 
 	public Boolean match(SObject record) {
-		IComparable matcher = (IComparable)this.operatorToMatcher.get(this.operator).newInstance();
-		return matcher.compare(this.blocks, this.conditions, record);
+		return this.matcher.compare(this.blocks, this.conditions, record);
 	}
 
 	public interface IComparable {
