@@ -2,6 +2,10 @@ public with sharing class Filter implements ISObjectMatchable {
 	private Map<String, Type> operatorToMatcher = new Map<String, Type>{
 		'=='     => FieldComparator.Equal.class,
 		'!='     => FieldComparator.NotEqual.class,
+		'>'      => FieldComparator.Greater.class,
+		'>='     => FieldComparator.GreaterOrEqual.class,
+		'<'      => FieldComparator.Less.class,
+		'<='     => FieldComparator.LessOrEqual.class,
 		'IN'     => FieldComparator.Includes.class,
 		'NOT IN' => FieldComparator.NotIncludes.class
 	};
