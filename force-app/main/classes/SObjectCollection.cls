@@ -5,11 +5,13 @@ public with sharing class SObjectCollection {
 		this.records = records;
 	}
 
-	public List<SObject> filter(ConditionBlock condition) {
+	public List<SObject> filter(FilterBlock condition) {
 		List<SObject> filteredList = new List<SObject>();
-		for (SObject record : this.records) {
-			if (condition.match(record)) {
-				filteredList.add(record);
+		Integer i = this.records.size();
+		while (i > 0) {
+			i -=1;
+			if (condition.match(this.records.get(i))) {
+				filteredList.add(this.records.get(i));
 			}
 		}
 		return filteredList;
