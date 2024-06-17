@@ -17,6 +17,20 @@ List<SObject> filteredRecords = new SObjectCollection(records)
 );
 ```
 
+Here is an example with nested conditions:
+```java
+List<SObject> records = /* some list of SObjects */;
+List<SObject> filteredRecords = new SObjectCollection(records)
+.filter(new FilterBlock('&&')
+	.add(new FilterBlock('||')
+		.add(new Filter('Origin', '==', 'Email'))
+		.add(new Filter('Origin', '==', 'Phone'))
+	)
+	.add(new Filter('Type', '==', 'Mechanical'))
+	.add(new Filter('Account.Name', 'IN', new List<String>{'Wong and Sons','Lane and Sons'}))
+);
+```
+
 ## Classes and Interfaces
 
 ### SObjectCollection
