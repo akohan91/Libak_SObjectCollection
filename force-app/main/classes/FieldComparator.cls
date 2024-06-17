@@ -156,12 +156,6 @@ public abstract class FieldComparator {
 				if (value1 == value2) return 0;
 				if (value1 > value2) return 1;
 				return -1;
-			} else if (this.sObjectValue instanceOf Integer) {
-				Integer value1 = (Integer)this.sObjectValue;
-				Integer value2 = (Integer)filterValue;
-				if (value1 == value2) return 0;
-				if (value1 > value2) return 1;
-				return -1;
 			} else if (this.sObjectValue instanceOf String) {
 				String value1 = (String)this.sObjectValue;
 				String value2 = (String)filterValue;
