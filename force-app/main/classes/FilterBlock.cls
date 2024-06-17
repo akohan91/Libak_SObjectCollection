@@ -75,6 +75,6 @@ public with sharing class FilterBlock implements ISObjectMatchable {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }
