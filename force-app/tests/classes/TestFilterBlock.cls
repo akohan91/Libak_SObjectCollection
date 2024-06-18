@@ -7,9 +7,10 @@ private class TestFilterBlock {
 		Test.startTest();
 		
 		Assert.isTrue(
-			new FilterBlock('&&')
-			.add(new Filter('Name', '==', 'Account Name'))
-			.add(new Filter('NumberOfEmployees', '==', 3))
+			new FilterBlock('AND', new List<Filter>{
+				new Filter('Name', '==', 'Account Name'),
+				new Filter('NumberOfEmployees', '==', 3)
+			})
 			.match(acc)
 		);
 
@@ -23,9 +24,10 @@ private class TestFilterBlock {
 		Test.startTest();
 		
 		Assert.isTrue(
-			new FilterBlock('||')
-			.add(new Filter('NumberOfEmployees', '==', 2))
-			.add(new Filter('NumberOfEmployees', '==', 3))
+			new FilterBlock('OR', new List<Filter>{
+				new Filter('NumberOfEmployees', '==', 2),
+				new Filter('NumberOfEmployees', '==', 3)
+			})
 			.match(acc)
 		);
 

@@ -11,24 +11,24 @@ Here is an example of how to use the library:
 ```java
 List<SObject> records = /* some list of SObjects */;
 List<SObject> filteredRecords = new SObjectCollection(records)
-.filter(new FilterBlock('&&')
-	.add(new Filter('Name', 'IN', new List<String>{'Acme', 'Acme 1', 'Acme 2'}))
-	.add(new Filter('Industry', '!=', 'Retail'))
-);
+.filter(new FilterBlock('AND', new List<ICondition>{
+	new Filter('Name', 'IN', new List<String>{'Acme', 'Acme 1', 'Acme 2'}),
+	new Filter('Industry', '!=', 'Retail')
+}));
 ```
 
 Here is an example with nested conditions:
 ```java
 List<SObject> records = /* some list of SObjects */;
-List<SObject> filteredRecords = new SObjectCollection(records)
-.filter(new FilterBlock('&&')
-	.add(new FilterBlock('||')
-		.add(new Filter('Origin', '==', 'Email'))
-		.add(new Filter('Origin', '==', 'Phone'))
-	)
-	.add(new Filter('Type', '==', 'Mechanical'))
-	.add(new Filter('Account.Name', 'IN', new List<String>{'Wong and Sons','Lane and Sons'}))
-);
+List<SObject> filteredRecords = new SObjectCollection(cases)
+.filter(new FilterBlock('AND', new List<ICondition>{
+	new FilterBlock('||', new List<ICondition>{
+		new Filter('Origin', '==', 'Email'),
+		new Filter('Origin', '==', 'Phone')
+	}),
+	new Filter('Type', '==', 'Mechanical'),
+	new Filter('Account.Name', 'IN', new List<String>{'Wong and Sons','Lane and Sons'})
+}));
 ```
 
 ## Classes and Interfaces
@@ -46,21 +46,21 @@ The SObjectCollection class manages a collection of SObject records and provides
 
 - Methods
 
-`public List<SObject> filter(FilterBlock condition)`
+`public List<SObject> filter(ICondition condition)`
 
 Description: Filters the SObject records in the collection based on the specified condition.
 
 -  Parameters:
 
-`condition` - A FilterBlock object representing the condition to filter the records.
+`condition` - A ICondition object representing the condition to filter the records.
 
 - Returns: 
 
 A list of filtered SObject records.
 
-### ISObjectMatchable
+### ICondition
 
-The ISObjectMatchable interface defines a method for matching SObject records against specified conditions.
+The ICondition interface defines a method for matching SObject records against specified conditions.
 
 - Methods
 
@@ -76,26 +76,16 @@ Determines whether the specified SObject record matches the condition.
 
 ### FilterBlock
 
-The FilterBlock class implements the ISObjectMatchable interface and represents a composite condition that can contain multiple ISObjectMatchable conditions combined with a logical operator.
+The FilterBlock class implements the ICondition interface and represents a composite condition that can contain multiple ICondition conditions combined with a logical operator.
 
 #### Constructor
 
-`public FilterBlock(String operator)`
+`public FilterBlock(String operator, List<ICondition> conditions)`
 
 - Parameters:
-`operator` - The logical operator to combine the conditions (&& for AND, || for OR).
+`operator` - The logical operator to combine the conditions (AND, OR).
+`conditions` - The list of ICondition condition to be added.
 
-- Methods
-
-`public FilterBlock add(ISObjectMatchable condition)`
-
-- Description: Adds a condition to the filter block.
-
-- Parameters:
-
-`condition` - The ISObjectMatchable condition to be added.
-
-- Returns: The updated FilterBlock object.
 
 `public Boolean match(SObject record)`
 
@@ -109,7 +99,7 @@ The FilterBlock class implements the ISObjectMatchable interface and represents 
 
 ### Filter
 
-The Filter class implements the ISObjectMatchable interface and represents a condition to compare a field value in an SObject record against a specified value.
+The Filter class implements the ICondition interface and represents a condition to compare a field value in an SObject record against a specified value.
 
 #### Constructor
 

@@ -10,9 +10,10 @@ private class TestSObjectCollection {
 		Test.startTest();
 		
 		List<Account> filteredAccs = new SObjectCollection(accs).filter(
-			new FilterBlock('||')
-			.add(new Filter('Name', '==', 'Account Name 0'))
-			.add(new Filter('Name', '==', 'Account Name 1'))
+			new FilterBlock('OR', new List<Filter>{
+				new Filter('Name', '==', 'Account Name 0'),
+				new Filter('Name', '==', 'Account Name 1')
+			})
 		);
 		
 		Test.stopTest();

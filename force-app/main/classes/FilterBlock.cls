@@ -4,32 +4,22 @@
  * Represents a composite filter condition that can be composed of multiple ISObjectMatchable conditions
  * combined with logical operators (AND/OR).
  */
-public with sharing class FilterBlock implements ISObjectMatchable {
+public with sharing class FilterBlock implements ICondition {
 	
 	// List of conditions that make up this filter block.
-	private List<ISObjectMatchable> conditions = new List<ISObjectMatchable>();
+	private List<ICondition> conditions = new List<ICondition>();
 	
-	// Logical operator used to combine conditions ("&&" for AND, "||" for OR).
+	// Logical operator used to combine conditions (AND, OR).
 	private String operator;
 
 	/**
 	 * Constructs a new FilterBlock with the specified logical operator.
 	 *
-	 * @param operator The logical operator used to combine conditions ("&&" for AND, "||" for OR).
+	 * @param operator The logical operator used to combine conditions (AND, OR).
 	 */
-	public FilterBlock(String operator) {
+	public FilterBlock(String operator, List<ICondition> conditions) {
 		this.operator = operator;
-	}
-
-	/**
-	 * Adds a condition to this FilterBlock.
-	 *
-	 * @param condition The condition to add.
-	 * @return This FilterBlock instance (for method chaining).
-	 */
-	public FilterBlock add(ISObjectMatchable condition) {
-		this.conditions.add(condition);
-		return this;
+		this.conditions = conditions;
 	}
 
 	/**
@@ -39,7 +29,7 @@ public with sharing class FilterBlock implements ISObjectMatchable {
 	 * @return true if the record matches the conditions; false otherwise.
 	 */
 	public Boolean match(SObject record) {
-		return this.operator == '&&'
+		return this.operator == 'AND'
 			? this.matchAnd(record)
 			: this.matchOR(record);
 	}

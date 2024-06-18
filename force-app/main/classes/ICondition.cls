@@ -3,7 +3,7 @@
  * 
  * Defines a contract for matching SObjects against a specific condition.
  */
-public interface ISObjectMatchable {
+public interface ICondition {
 
 	/**
 	 * Determines whether the given SObject record matches the specified condition.

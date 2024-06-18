@@ -23,7 +23,7 @@ public with sharing class SObjectCollection {
 	 * @param condition The filter condition to be applied to the SObject records.
 	 * @return A list of SObject records that match the specified filter condition.
 	 */
-	public List<SObject> filter(ISObjectMatchable condition) {
+	public List<SObject> filter(ICondition condition) {
 		List<SObject> filteredList = new List<SObject>();
 		Integer i = this.records.size();
 		while (i > 0) {

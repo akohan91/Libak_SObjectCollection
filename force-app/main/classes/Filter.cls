@@ -4,7 +4,7 @@
  * Represents a filter condition that can be applied to an SObject field. 
  * Supports various comparison operators.
  */
-public with sharing class Filter implements ISObjectMatchable {
+public with sharing class Filter implements ICondition {
 
 	// Mapping of operator strings to their corresponding FieldComparator classes.
 	private Map<String, Type> operatorToMatcher = new Map<String, Type>{
